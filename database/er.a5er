@@ -1,0 +1,154 @@
+﻿# A5:ER FORMAT:16
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.17.2 Copyright © 1997 - 2022 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=
+Author=
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Page=Main
+PageInfo="Main",7,"A3Landscape",$FFFFFF
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=7
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=6
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+RDBMSType=5
+RDBMSTypeName=MySQL
+GenerateDropTableStatement=1
+DropTableIfExists=1
+BackupRestoreTempTable=0
+CreateFk=1
+FkOnDeleteOption=on delete cascade
+FkOnUpdateOption=on update cascade
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+UpperCaseKeyword=0
+ShowTag=1
+ShowCommonAttributes=0
+BugFixEntityWidth=1
+
+[Entity]
+PName=posts
+LName=役職テーブル
+Comment=
+TableOption=
+Page=Main
+Left=2550
+Top=950
+Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
+Field="役職","name","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="データ挿入日時","insert_at","datetime","NOT NULL",,"current_timestamp()","",$FFFFFFFF,""
+Field="データ更新日時","update_at","datetime on update CURRENT_TIMESTAMP",,,"null","",$FFFFFFFF,""
+Index=posts_name_IDX=2,name
+EffectMode=None
+Color=$000000
+BkColor=$8FC5ED
+ModifiedDateTime=20221218001149
+Position="Main",2550,950
+ZOrder=-1
+
+[Entity]
+PName=posts_of_users
+LName=ユーザーテーブル
+Comment=
+TableOption=
+Page=Main
+Left=1700
+Top=1150
+Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ユーザーテーブルID","users_id","bigint(20) unsigned","NOT NULL",,"","",$FFFFFFFF,""
+Field="役職テーブルID","posts_id","bigint(20) unsigned","NOT NULL",,"","",$FFFFFFFF,""
+Field="データ挿入日時","insert_at","datetime","NOT NULL",,"current_timestamp()","",$FFFFFFFF,""
+Field="データ更新日時","update_at","datetime on update CURRENT_TIMESTAMP",,,"null","",$FFFFFFFF,""
+Index==2,users_id ,posts_id 
+EffectMode=None
+Color=$000000
+BkColor=$99FFFF
+ModifiedDateTime=20221218002948
+Position="Main",1700,1150
+ZOrder=-2
+
+[Entity]
+PName=users
+LName=ユーザーテーブル
+Comment=
+TableOption=
+Page=Main
+Left=1400
+Top=900
+Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
+Field="アカウント","account","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="ハッシュ化済みパスワード","password_hash","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="社員番号","employee_no","SMALLINT",,,"","",$FFFFFFFF,""
+Field="表示名","name","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="データ挿入日時","insert_at","datetime","NOT NULL",,"current_timestamp()","",$FFFFFFFF,""
+Field="データ更新日時","update_at","datetime on update CURRENT_TIMESTAMP",,,"null","",$FFFFFFFF,""
+Index==2,account
+EffectMode=None
+Color=$000000
+BkColor=$8FC5ED
+ModifiedDateTime=20221218003216
+Position="Main",1400,900
+ZOrder=-3
+
+[Relation]
+Entity1=posts
+Entity2=posts_of_users
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=posts_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1722,5429,5341,R,R,""
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20221218000545
+LineMode=0
+Bar1=172
+Bar2=543
+Bar3=534
+TermPos1=R
+TermPos2=R
+ZOrder=-5
+
+[Relation]
+Entity1=users
+Entity2=posts_of_users
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=users_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",6,748,500,3050,R,R,""
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20221218000536
+LineMode=6
+Bar1=75
+Bar2=50
+Bar3=305
+TermPos1=R
+TermPos2=R
+ZOrder=1
