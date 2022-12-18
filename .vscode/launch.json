@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-EmployeesOfItfApplication<employees-of-itf>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "jp.co.itfllc.employeesofitf.EmployeesOfItfApplication",
+            "projectName": "employees-of-itf",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
