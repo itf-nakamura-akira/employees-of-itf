@@ -35,8 +35,8 @@ BackupRestoreTempTable=0
 CreateFk=1
 FkOnDeleteOption=on delete cascade
 FkOnUpdateOption=on update cascade
-CommonField="データ挿入日時","insert_at","datetime","NOT NULL",,"current_timestamp()","",$FFFFFFFF
-CommonField="データ更新日時","update_at","datetime on update CURRENT_TIMESTAMP",,,"","",$FFFFFFFF
+CommonField="データ挿入日時","insert_at","datetime(3)","NOT NULL",,"current_timestamp(3)","",$FFFFFFFF
+CommonField="データ更新日時","update_at","datetime(3) on update current_timestamp(3)",,,"","",$FFFFFFFF
 DefaultPkName=%0:s_PKC
 DefaultPkIndexName=%0:s_PKI
 DefaultIndexName=%0:s_IX%1:d
@@ -55,13 +55,13 @@ TableOption=
 Page=MAIN
 Left=2550
 Top=950
-Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ID","id","binary(16)","NOT NULL",0,"CONCAT(UNHEX(CONV(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000), 10, 16)), RANDOM_BYTES(10))","",$FFFFFFFF,""
 Field="役職","name","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
 Index==2,name
 EffectMode=None
 Color=$000000
 BkColor=$8FC5ED
-ModifiedDateTime=20221220000707
+ModifiedDateTime=20221220022201
 Position="MAIN",2550,950
 ZOrder=-1
 
@@ -73,14 +73,14 @@ TableOption=
 Page=MAIN
 Left=1700
 Top=1150
-Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
-Field="ユーザーテーブルID","users_id","bigint(20) unsigned","NOT NULL",,"","",$FFFFFFFF,""
-Field="役職テーブルID","posts_id","bigint(20) unsigned","NOT NULL",,"","",$FFFFFFFF,""
+Field="ID","id","binary(16)","NOT NULL",0,"CONCAT(UNHEX(CONV(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000), 10, 16)), RANDOM_BYTES(10))","",$FFFFFFFF,""
+Field="ユーザーテーブルID","users_id","binary(16)","NOT NULL",,"","",$FFFFFFFF,""
+Field="役職テーブルID","posts_id","binary(16)","NOT NULL",,"","",$FFFFFFFF,""
 Index==2,users_id,posts_id
 EffectMode=None
 Color=$000000
 BkColor=$99FFFF
-ModifiedDateTime=20221220000720
+ModifiedDateTime=20221220022157
 Position="MAIN",1700,1150
 ZOrder=-2
 
@@ -92,7 +92,7 @@ TableOption=
 Page=MAIN
 Left=1400
 Top=900
-Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ID","id","binary(16)","NOT NULL",0,"CONCAT(UNHEX(CONV(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000), 10, 16)), RANDOM_BYTES(10))","",$FFFFFFFF,""
 Field="アカウント","account","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
 Field="ハッシュ化済みパスワード","password_hash","text","NOT NULL",,"","",$FFFFFFFF,""
 Field="社員番号","employee_no","smallint",,,"","",$FFFFFFFF,""
@@ -103,7 +103,7 @@ Index==2,account
 EffectMode=None
 Color=$000000
 BkColor=$8FC5ED
-ModifiedDateTime=20221220001809
+ModifiedDateTime=20221220022152
 Position="MAIN",1400,900
 ZOrder=-3
 

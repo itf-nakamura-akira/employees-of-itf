@@ -1,5 +1,5 @@
 -- Project Name : noname
--- Date/Time    : 2022/12/20 0:18:44
+-- Date/Time    : 2022/12/20 2:22:40
 -- Author       : AKIRA
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
@@ -8,10 +8,10 @@
 drop table if exists posts cascade;
 
 create table posts (
-  id serial not null comment 'ID'
+  id binary(16) default CONCAT(UNHEX(CONV(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000), 10, 16)), RANDOM_BYTES(10)) not null comment 'ID'
   , name varchar(100) not null comment '役職'
-  , insert_at datetime default current_timestamp() not null comment 'データ挿入日時'
-  , update_at datetime on update CURRENT_TIMESTAMP comment 'データ更新日時'
+  , insert_at datetime(3) default current_timestamp(3) not null comment 'データ挿入日時'
+  , update_at datetime(3) on update current_timestamp(3) comment 'データ更新日時'
   , constraint posts_PKC primary key (id)
 ) comment '役職テーブル' ;
 
@@ -21,11 +21,11 @@ alter table posts add unique posts_IX1 (name) ;
 drop table if exists posts_of_users cascade;
 
 create table posts_of_users (
-  id serial not null comment 'ID'
-  , users_id bigint(20) unsigned not null comment 'ユーザーテーブルID'
-  , posts_id bigint(20) unsigned not null comment '役職テーブルID'
-  , insert_at datetime default current_timestamp() not null comment 'データ挿入日時'
-  , update_at datetime on update CURRENT_TIMESTAMP comment 'データ更新日時'
+  id binary(16) default CONCAT(UNHEX(CONV(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000), 10, 16)), RANDOM_BYTES(10)) not null comment 'ID'
+  , users_id binary(16) not null comment 'ユーザーテーブルID'
+  , posts_id binary(16) not null comment '役職テーブルID'
+  , insert_at datetime(3) default current_timestamp(3) not null comment 'データ挿入日時'
+  , update_at datetime(3) on update current_timestamp(3) comment 'データ更新日時'
   , constraint posts_of_users_PKC primary key (id)
 ) comment 'ユーザーテーブル' ;
 
@@ -35,7 +35,7 @@ alter table posts_of_users add unique posts_of_users_IX1 (users_id,posts_id) ;
 drop table if exists users cascade;
 
 create table users (
-  id serial not null comment 'ID'
+  id binary(16) default CONCAT(UNHEX(CONV(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000), 10, 16)), RANDOM_BYTES(10)) not null comment 'ID'
   , account varchar(100) not null comment 'アカウント'
   , password_hash text not null comment 'ハッシュ化済みパスワード'
   , employee_no smallint comment '社員番号'
@@ -44,8 +44,8 @@ manager: マネージャー
 general: 一般'
   , is_enabled boolean default true not null comment '有効フラグ'
   , name varchar(100) not null comment '表示名'
-  , insert_at datetime default current_timestamp() not null comment 'データ挿入日時'
-  , update_at datetime on update CURRENT_TIMESTAMP comment 'データ更新日時'
+  , insert_at datetime(3) default current_timestamp(3) not null comment 'データ挿入日時'
+  , update_at datetime(3) on update current_timestamp(3) comment 'データ更新日時'
   , constraint users_PKC primary key (id)
 ) comment 'ユーザーテーブル' ;
 
