@@ -35,6 +35,8 @@ BackupRestoreTempTable=0
 CreateFk=1
 FkOnDeleteOption=on delete cascade
 FkOnUpdateOption=on update cascade
+CommonField="データ挿入日時","insert_at","datetime","NOT NULL",,"current_timestamp()","",$FFFFFFFF
+CommonField="データ更新日時","update_at","datetime on update CURRENT_TIMESTAMP",,,"","",$FFFFFFFF
 DefaultPkName=%0:s_PKC
 DefaultPkIndexName=%0:s_PKI
 DefaultIndexName=%0:s_IX%1:d
@@ -50,19 +52,17 @@ PName=posts
 LName=役職テーブル
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=2550
 Top=950
 Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
 Field="役職","name","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
-Field="データ挿入日時","insert_at","datetime","NOT NULL",,"current_timestamp()","",$FFFFFFFF,""
-Field="データ更新日時","update_at","datetime on update CURRENT_TIMESTAMP",,,"null","",$FFFFFFFF,""
-Index=posts_name_IDX=2,name
+Index==2,name
 EffectMode=None
 Color=$000000
 BkColor=$8FC5ED
-ModifiedDateTime=20221218001149
-Position="Main",2550,950
+ModifiedDateTime=20221220000707
+Position="MAIN",2550,950
 ZOrder=-1
 
 [Entity]
@@ -70,20 +70,18 @@ PName=posts_of_users
 LName=ユーザーテーブル
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=1700
 Top=1150
 Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
 Field="ユーザーテーブルID","users_id","bigint(20) unsigned","NOT NULL",,"","",$FFFFFFFF,""
 Field="役職テーブルID","posts_id","bigint(20) unsigned","NOT NULL",,"","",$FFFFFFFF,""
-Field="データ挿入日時","insert_at","datetime","NOT NULL",,"current_timestamp()","",$FFFFFFFF,""
-Field="データ更新日時","update_at","datetime on update CURRENT_TIMESTAMP",,,"null","",$FFFFFFFF,""
-Index==2,users_id ,posts_id 
+Index==2,users_id,posts_id
 EffectMode=None
 Color=$000000
 BkColor=$99FFFF
-ModifiedDateTime=20221218002948
-Position="Main",1700,1150
+ModifiedDateTime=20221220000720
+Position="MAIN",1700,1150
 ZOrder=-2
 
 [Entity]
@@ -91,22 +89,22 @@ PName=users
 LName=ユーザーテーブル
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=1400
 Top=900
 Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
 Field="アカウント","account","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
 Field="ハッシュ化済みパスワード","password_hash","text","NOT NULL",,"","",$FFFFFFFF,""
-Field="社員番号","employee_no","SMALLINT",,,"","",$FFFFFFFF,""
+Field="社員番号","employee_no","smallint",,,"","",$FFFFFFFF,""
+Field="システム権限","system_authority","enum(\qadministrator\q,\qmanager\q, \qgeneral\q)","NOT NULL",,"\qgeneral\q","administrator: 管理者\nmanager: マネージャー\ngeneral: 一般",$FFFFFFFF,""
+Field="有効フラグ","is_enabled","boolean","NOT NULL",,"true","",$FFFFFFFF,""
 Field="表示名","name","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
-Field="データ挿入日時","insert_at","datetime","NOT NULL",,"current_timestamp()","",$FFFFFFFF,""
-Field="データ更新日時","update_at","datetime on update CURRENT_TIMESTAMP",,,"null","",$FFFFFFFF,""
 Index==2,account
 EffectMode=None
 Color=$000000
 BkColor=$8FC5ED
-ModifiedDateTime=20221218003216
-Position="Main",1400,900
+ModifiedDateTime=20221220001809
+Position="MAIN",1400,900
 ZOrder=-3
 
 [Relation]

@@ -1,28 +1,28 @@
 -- ユーザー
 INSERT INTO users
-    (account, password_hash, employee_no, name)
+    (account, password_hash, employee_no, system_authority, is_enabled, name)
 VALUES
-    ('yamanouchi', 'hashed_password', 0, '山之内 貴彦'),
-    ('user01', 'hashed_password', 1, 'ユーザー 01'),
-    ('user02', 'hashed_password', 2, 'ユーザー 02'),
-    ('user03', 'hashed_password', 3, 'ユーザー 03'),
-    ('user04', 'hashed_password', 4, 'ユーザー 04'),
-    ('user05', 'hashed_password', 5, 'ユーザー 05'),
-    ('user06', 'hashed_password', 6, 'ユーザー 06'),
-    ('user07', 'hashed_password', 7, 'ユーザー 07'),
-    ('user08', 'hashed_password', 8, 'ユーザー 08'),
-    ('user09', 'hashed_password', 9, 'ユーザー 09'),
-    ('user10', 'hashed_password', 10, 'ユーザー 10'),
-    ('user11', 'hashed_password', 11, 'ユーザー 11'),
-    ('user12', 'hashed_password', 12, 'ユーザー 12'),
-    ('user13', 'hashed_password', 13, 'ユーザー 13'),
-    ('user14', 'hashed_password', 14, 'ユーザー 14'),
-    ('user15', 'hashed_password', 15, 'ユーザー 15'),
-    ('user16', 'hashed_password', 16, 'ユーザー 16'),
-    ('user17', 'hashed_password', 17, 'ユーザー 17'),
-    ('user18', 'hashed_password', 18, 'ユーザー 18'),
-    ('user19', 'hashed_password', 19, 'ユーザー 19'),
-    ('user20', 'hashed_password', 20, 'ユーザー 20');
+    ('yamanouchi', 'hashed_password', 0, 'administrator', 1, '山之内 貴彦'),
+    ('user01', 'hashed_password', 1, 'manager', 1, 'ユーザー 01'),
+    ('user02', 'hashed_password', 2, 'manager', 1, 'ユーザー 02'),
+    ('user03', 'hashed_password', 3, 'general', 1, 'ユーザー 03'),
+    ('user04', 'hashed_password', 4, 'general', 1, 'ユーザー 04'),
+    ('user05', 'hashed_password', 5, 'general', 1, 'ユーザー 05'),
+    ('user06', 'hashed_password', 6, 'general', 1, 'ユーザー 06'),
+    ('user07', 'hashed_password', 7, 'general', 1, 'ユーザー 07'),
+    ('user08', 'hashed_password', 8, 'general', 1, 'ユーザー 08'),
+    ('user09', 'hashed_password', 9, 'general', 1, 'ユーザー 09'),
+    ('user10', 'hashed_password', 10, 'general', 1, 'ユーザー 10'),
+    ('user11', 'hashed_password', 11, 'general', 1, 'ユーザー 11'),
+    ('user12', 'hashed_password', 12, 'general', 1, 'ユーザー 12'),
+    ('user13', 'hashed_password', 13, 'general', 1, 'ユーザー 13'),
+    ('user14', 'hashed_password', 14, 'general', 1, 'ユーザー 14'),
+    ('user15', 'hashed_password', 15, 'general', 1, 'ユーザー 15'),
+    ('user16', 'hashed_password', 16, 'general', 1, 'ユーザー 16'),
+    ('user17', 'hashed_password', 17, 'general', 1, 'ユーザー 17'),
+    ('user18', 'hashed_password', 18, 'general', 1, 'ユーザー 18'),
+    ('user19', 'hashed_password', 19, 'general', 1, 'ユーザー 19'),
+    ('user20', 'hashed_password', 20, 'general', 1, 'ユーザー 20');
 
 -- 役職
 INSERT INTO posts
