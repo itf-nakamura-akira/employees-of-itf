@@ -95,15 +95,15 @@ Top=900
 Field="ID","id","binary(16)","NOT NULL",0,"CONCAT(UNHEX(CONV(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000), 10, 16)), RANDOM_BYTES(10))","",$FFFFFFFF,""
 Field="アカウント","account","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
 Field="ハッシュ化済みパスワード","password_hash","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="表示名","name","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
 Field="社員番号","employee_no","mediumint",,,"","",$FFFFFFFF,""
 Field="システム権限","system_authority","enum(\qadministrator\q,\qmanager\q, \qgeneral\q)","NOT NULL",,"\qgeneral\q","administrator: 管理者\nmanager: マネージャー\ngeneral: 一般",$FFFFFFFF,""
 Field="有効フラグ","is_enabled","boolean","NOT NULL",,"true","",$FFFFFFFF,""
-Field="表示名","name","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
 Index==2,account
 EffectMode=None
 Color=$000000
 BkColor=$8FC5ED
-ModifiedDateTime=20221220232946
+ModifiedDateTime=20221220234900
 Position="MAIN",1400,900
 ZOrder=-3
 
