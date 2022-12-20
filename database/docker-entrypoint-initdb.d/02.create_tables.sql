@@ -1,5 +1,5 @@
 -- Project Name : noname
--- Date/Time    : 2022/12/20 23:49:13
+-- Date/Time    : 2022/12/21 1:04:04
 -- Author       : AKIRA
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
@@ -40,9 +40,9 @@ create table users (
   , password_hash text not null comment 'ハッシュ化済みパスワード'
   , name varchar(100) not null comment '表示名'
   , employee_no mediumint comment '社員番号'
-  , system_authority enum('administrator','manager', 'general') default 'general' not null comment 'システム権限:administrator: 管理者
-manager: マネージャー
-general: 一般'
+  , system_authority enum('Administrator','Manager', 'General') default 'General' not null comment 'システム権限:Administrator: 管理者
+Manager: マネージャー
+General: 一般'
   , is_enabled boolean default true not null comment '有効フラグ'
   , insert_at datetime(3) default current_timestamp(3) not null comment 'データ挿入日時'
   , update_at datetime(3) on update current_timestamp(3) comment 'データ更新日時'

@@ -97,13 +97,13 @@ Field="アカウント","account","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
 Field="ハッシュ化済みパスワード","password_hash","text","NOT NULL",,"","",$FFFFFFFF,""
 Field="表示名","name","varchar(100)","NOT NULL",,"","",$FFFFFFFF,""
 Field="社員番号","employee_no","mediumint",,,"","",$FFFFFFFF,""
-Field="システム権限","system_authority","enum(\qadministrator\q,\qmanager\q, \qgeneral\q)","NOT NULL",,"\qgeneral\q","administrator: 管理者\nmanager: マネージャー\ngeneral: 一般",$FFFFFFFF,""
+Field="システム権限","system_authority","enum(\qAdministrator\q,\qManager\q, \qGeneral\q)","NOT NULL",,"\qGeneral\q","Administrator: 管理者\nManager: マネージャー\nGeneral: 一般",$FFFFFFFF,""
 Field="有効フラグ","is_enabled","boolean","NOT NULL",,"true","",$FFFFFFFF,""
 Index==2,account
 EffectMode=None
 Color=$000000
 BkColor=$8FC5ED
-ModifiedDateTime=20221220234900
+ModifiedDateTime=20221221010354
 Position="MAIN",1400,900
 ZOrder=-3
 
