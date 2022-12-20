@@ -12,7 +12,9 @@
 	},
 	"extensions": [
         "Pivotal.vscode-boot-dev-pack",
-        "vscjava.vscode-java-pack"
+        "vscjava.vscode-java-pack",
+		"yangbaopan.vscode-java-ibatisx",
+		"redhat.vscode-xml"
     ]
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
