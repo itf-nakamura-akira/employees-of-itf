@@ -11,7 +11,7 @@ import jp.co.itfllc.employeesofitf.mappers.UsersMapper;
 
 @Service
 public class AuthorizeService {
-    private UsersMapper usersMapper;
+    private final UsersMapper usersMapper;
 
     public AuthorizeService(UsersMapper usersMapper) {
         this.usersMapper = usersMapper;

@@ -29,7 +29,7 @@ public class UsersMapperTests {
 
     @Test
     @DisplayName("selectByAccount メソッドのテスト")
-    public void selectByAccount() {
+    public void testSelectByAccount() {
         Optional<UsersEntity> actual;
 
         // データの取得
@@ -55,7 +55,7 @@ public class UsersMapperTests {
 
     @Test
     @DisplayName("selectAll メソッドのテスト")
-    public void selectAll() {
+    public void testSelectAll() {
         // データの取得
         List<UsersEntity> actual = this.usersMapper.selectAll();
 
