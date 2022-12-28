@@ -17,11 +17,8 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UsersEntity user = this.usersMapper.selectByAccount(username).orElseThrow(() -> new UsernameNotFoundException(username));
-
-        // TODO: 認証していないけどいい？
-
+    public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
+        UsersEntity user = this.usersMapper.selectByAccount(account).orElseThrow(() -> new UsernameNotFoundException(account));
         var userDetails = new AppUserDetails(user);
 
         return userDetails;

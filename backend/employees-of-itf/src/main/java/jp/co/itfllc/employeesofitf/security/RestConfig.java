@@ -8,7 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -50,10 +51,12 @@ public class RestConfig {
         // @formatter:off
 		http
 				.authorizeHttpRequests((authorize) -> authorize
-						.anyRequest().authenticated()
+                    // TODO: 後で整える
+                    .requestMatchers("/token", "/api/token").permitAll()
+                    .anyRequest().authenticated()
 				)
-				.csrf((csrf) -> csrf.ignoringRequestMatchers("/token", "/api/token"))
-				.httpBasic(Customizer.withDefaults())
+				.csrf().disable()
+				// .httpBasic(Customizer.withDefaults())
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
 				.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.exceptionHandling((exceptions) -> exceptions
@@ -62,6 +65,12 @@ public class RestConfig {
 				);
 		// @formatter:on
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     /**
