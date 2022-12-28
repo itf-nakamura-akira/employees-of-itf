@@ -11,7 +11,7 @@ public class UsersEntity {
     /**
      * ID
      */
-    private Byte[] id;
+    private byte[] id;
 
     /**
      * アカウント

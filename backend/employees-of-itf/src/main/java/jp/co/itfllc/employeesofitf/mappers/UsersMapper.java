@@ -13,6 +13,14 @@ import jp.co.itfllc.employeesofitf.entities.UsersEntity;
 @Mapper
 public interface UsersMapper {
     /**
+     * ID指定で1件取得
+     *
+     * @param id ID
+     * @return ユーザーテーブルデータ
+     */
+    public Optional<UsersEntity> selectById(byte[] id);
+
+    /**
      * アカウント指定で1件取得
      *
      * @param account アカウント

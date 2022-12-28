@@ -1,0 +1,14 @@
+{
+    "properties": [
+        {
+            "name": "security.jwt.secret-key",
+            "type": "java.lang.String",
+            "description": "JWTの暗号化に使うセキュリティーキー。HMAC256アルゴリズムのため32バイトが効率的。"
+        },
+        {
+            "name": "security.jwt.expiration-time",
+            "type": "java.lang.Integer",
+            "description": "JWTの有効期限(秒)。"
+        }
+    ]
+}

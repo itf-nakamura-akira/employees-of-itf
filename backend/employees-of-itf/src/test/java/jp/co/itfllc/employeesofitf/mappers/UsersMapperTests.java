@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.security.crypto.codec.Hex;
 import org.springframework.test.context.ActiveProfiles;
 
 import jp.co.itfllc.employeesofitf.entities.UsersEntity;
@@ -26,6 +27,20 @@ public class UsersMapperTests {
      */
     @Autowired
     private UsersMapper usersMapper;
+
+    @Test
+    @DisplayName("selectById メソッドのテスト")
+    public void testSelectById() {
+        Optional<UsersEntity> actual;
+
+        // データの取得
+        actual = this.usersMapper.selectById(Hex.decode("018530570EBEC4324C9B9257EE300CFC"));
+
+        // データの確認
+        assertNotNull(actual.get());
+
+        // TODO: テスト不十分
+    }
 
     @Test
     @DisplayName("selectByAccount メソッドのテスト")
