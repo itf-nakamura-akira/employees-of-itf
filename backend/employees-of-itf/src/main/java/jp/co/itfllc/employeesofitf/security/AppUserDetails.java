@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jp.co.itfllc.employeesofitf.entities.UsersEntity;
 
+/**
+ * Spring Securityで利用されるユーザー情報
+ */
 public class AppUserDetails implements UserDetails {
     private final UsersEntity user;
 
@@ -57,5 +60,9 @@ public class AppUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.user.getIsEnabled();
+    }
+
+    public byte[] getId() {
+        return this.user.getId();
     }
 }

@@ -9,6 +9,16 @@
             "name": "security.jwt.expiration-time",
             "type": "java.lang.Integer",
             "description": "JWTの有効期限(秒)。"
+        },
+        {
+            "name": "security.public-key",
+            "type": "java.lang.String",
+            "description": "暗号化に関する公開鍵。"
+        },
+        {
+            "name": "security.private-key",
+            "type": "java.lang.String",
+            "description": "暗号化に関する秘密鍵。"
         }
     ]
 }
