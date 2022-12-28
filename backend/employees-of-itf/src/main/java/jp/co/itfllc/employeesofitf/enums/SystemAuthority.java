@@ -7,29 +7,15 @@ public enum SystemAuthority {
     /**
      * 管理者
      */
-    Administrator("Administrator"),
+    Administrator,
 
     /**
      * マネージャー
      */
-    Manager("Manager"),
+    Manager,
 
     /**
      * 一般
      */
-    General("General");
-
-    /**
-     * システム権限
-     */
-    private String authority;
-
-    /**
-     * コンストラクター
-     *
-     * @param authority システム権限
-     */
-    private SystemAuthority(String authority) {
-        this.authority = authority;
-    }
+    General,
 }
