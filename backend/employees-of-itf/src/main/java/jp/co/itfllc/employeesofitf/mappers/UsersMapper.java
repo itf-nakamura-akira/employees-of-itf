@@ -6,12 +6,20 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 import jp.co.itfllc.employeesofitf.entities.UsersEntity;
+import jp.co.itfllc.employeesofitf.enums.SystemAuthority;
 
 /**
  * ユーザーテーブルに関するMapper
  */
 @Mapper
 public interface UsersMapper {
+    /**
+     * 全件取得
+     *
+     * @return ユーザーテーブルデータ全件
+     */
+    public List<UsersEntity> selectAll();
+
     /**
      * ID指定で1件取得
      *
@@ -29,9 +37,15 @@ public interface UsersMapper {
     public Optional<UsersEntity> selectByAccount(String account);
 
     /**
-     * 全件取得
+     * ユーザーデータの追加
      *
-     * @return ユーザーテーブルデータ全件
+     * @param account         アカウント
+     * @param passwordHash    ハッシュ化済みパスワード
+     * @param name            表示名
+     * @param employeeNo      社員番号
+     * @param systemAuthority システム権限
+     * @param isEnabled       有効/無効
      */
-    public List<UsersEntity> selectAll();
+    public void insert(String account, String passwordHash, String name, Integer employeeNo,
+            SystemAuthority systemAuthority, Boolean isEnabled);
 }

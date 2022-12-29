@@ -41,13 +41,13 @@ public class AppSecurityConfig {
      * セキュリティーキー（公開鍵）
      */
     @Value("${security.public-key}")
-    RSAPublicKey publicKey;
+    private RSAPublicKey publicKey;
 
     /**
      * セキュリティーキー（秘密鍵）
      */
     @Value("${security.private-key}")
-    RSAPrivateKey privateKey;
+    private RSAPrivateKey privateKey;
 
     /**
      * セキュリティー全体の設定
@@ -91,7 +91,7 @@ public class AppSecurityConfig {
      * @return エンコーダーリスト
      */
     @Bean
-    PasswordEncoder psswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         Map<String, PasswordEncoder> encoders = new HashMap<>();
 
         encoders.put("argon2@SpringSecurity_v5_8", Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
@@ -108,7 +108,7 @@ public class AppSecurityConfig {
      * @return JWTデコーダー
      */
     @Bean
-    JwtDecoder jwtDecoder() {
+    public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(this.publicKey).build();
     }
 
@@ -118,7 +118,7 @@ public class AppSecurityConfig {
      * @return JWTエンコーダー
      */
     @Bean
-    JwtEncoder jwtEncoder() {
+    public JwtEncoder jwtEncoder() {
         JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(this.privateKey).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
 
