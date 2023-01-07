@@ -48,4 +48,13 @@ public interface UsersMapper {
      */
     public void insert(String account, String passwordHash, String name, Integer employeeNo,
             SystemAuthority systemAuthority, Boolean isEnabled);
+
+    /**
+     * リフレッシュトークンの更新
+     *
+     * @param id 更新対象のID
+     * @param refreshToken 新しいリフレッシュトークン
+     * @return 更新件数
+     */
+    public Integer updateRefreshToken(byte[] id, String refreshToken);
 }

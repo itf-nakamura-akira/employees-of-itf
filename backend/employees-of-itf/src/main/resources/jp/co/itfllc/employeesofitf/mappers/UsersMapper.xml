@@ -11,4 +11,12 @@
         VALUES
             (#{account}, #{passwordHash}, #{name}, #{employeeNo}, #{systemAuthority}, #{isEnabled});
     </select>
+    <update id="updateRefreshToken">
+        UPDATE
+            users
+        SET
+            refresh_token = #{refreshToken}
+        WHERE
+            id = #{id};
+    </update>
 </mapper>

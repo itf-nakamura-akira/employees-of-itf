@@ -1,7 +1,9 @@
 package jp.co.itfllc.employeesofitf.mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import jp.co.itfllc.employeesofitf.entities.UsersEntity;
 import jp.co.itfllc.employeesofitf.enums.SystemAuthority;
 import jp.co.itfllc.employeesofitf.security.AppSecurityConfig;
+import net.bytebuddy.utility.RandomString;
 
 @MybatisTest
 @ActiveProfiles("test")
@@ -149,6 +152,7 @@ public class UsersMapperTests {
         assertNotNull(actual.getId());
         assertTrue(actual.getId().length > 0);
         assertTrue(this.passwordEncoder.matches(password, actual.getPasswordHash()));
+        assertNull(actual.getRefreshToken());
         assertEquals(name, actual.getName());
         assertEquals(employeeNo, actual.getEmployeeNo());
         assertEquals(systemAuthority, actual.getSystemAuthority());
@@ -171,9 +175,44 @@ public class UsersMapperTests {
         assertNotNull(actual.getId());
         assertTrue(actual.getId().length > 0);
         assertTrue(this.passwordEncoder.matches(password, actual.getPasswordHash()));
+        assertNull(actual.getRefreshToken());
         assertEquals(name, actual.getName());
         assertEquals(employeeNo, actual.getEmployeeNo());
         assertEquals(systemAuthority, actual.getSystemAuthority());
         assertEquals(isEnabled, actual.getIsEnabled());
+    }
+
+    @Test
+    @DisplayName("updateRefreshToken メソッドのテスト")
+    public void testUpdateRefreshToken() {
+        String newToken;
+        byte[] targetId;
+        UsersEntity target;
+        Integer result;
+        UsersEntity actual;
+
+        // データの更新
+        newToken = RandomString.make();
+        targetId = Hex.decode("0000000000BEC4324C9B9257EE300CFC");
+        target = this.usersMapper.selectById(targetId).get();
+        result = this.usersMapper.updateRefreshToken(target.getId(), newToken);
+        actual = this.usersMapper.selectById(targetId).get();
+
+        // 結果の確認
+        assertNotEquals(newToken, target.getRefreshToken());
+        assertEquals(1, result);
+        assertEquals(newToken, actual.getRefreshToken());
+
+        // データの更新
+        newToken = RandomString.make();
+        targetId = Hex.decode("0000000001BEC4324C9B9257EE300CFC");
+        target = this.usersMapper.selectById(targetId).get();
+        result = this.usersMapper.updateRefreshToken(target.getId(), newToken);
+        actual = this.usersMapper.selectById(targetId).get();
+
+        // 結果の確認
+        assertNotEquals(newToken, target.getRefreshToken());
+        assertEquals(1, result);
+        assertEquals(newToken, actual.getRefreshToken());
     }
 }

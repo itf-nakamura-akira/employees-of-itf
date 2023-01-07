@@ -13,10 +13,21 @@ import jp.co.itfllc.employeesofitf.entities.UsersEntity;
  * Spring Securityで利用されるユーザー情報
  */
 public class AppUserDetails implements UserDetails {
+    /**
+     * UsersEntity
+     */
     private final UsersEntity user;
 
+    /**
+     * データベースの権限情報をUserDetailsの権限情報に変換した結果
+     */
     private final Collection<? extends GrantedAuthority> authorities;
 
+    /**
+     * コンストラクター
+     *
+     * @param user データ元となるデータベースの情報
+     */
     public AppUserDetails(UsersEntity user) {
         this.user = user;
 

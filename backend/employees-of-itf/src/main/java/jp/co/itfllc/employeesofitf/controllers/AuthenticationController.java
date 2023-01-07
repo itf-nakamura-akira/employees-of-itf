@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.stream.Collectors;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.itfllc.employeesofitf.security.AppUserDetails;
+import jp.co.itfllc.employeesofitf.services.AuthorizationService;
 
 /**
  * 認証Controller
@@ -24,6 +26,12 @@ import jp.co.itfllc.employeesofitf.security.AppUserDetails;
 @RestController()
 @RequestMapping("/authentication")
 public class AuthenticationController {
+    /**
+     * JWTの有効期限(秒)
+     */
+    @Value("${security.jwt.expiration-time}")
+    private Integer jwtExpirationTime;
+
     /**
      * AuthenticationManager
      */
@@ -35,14 +43,22 @@ public class AuthenticationController {
     private final JwtEncoder encoder;
 
     /**
+     * AuthorizationService
+     */
+    private final AuthorizationService authorizationService;
+
+    /**
      * コンストラクター
      *
      * @param authenticationManager AuthenticationManager
      * @param encoder               JwtEncoder
+     * @param authorizationService  AuthorizationService
      */
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtEncoder encoder) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtEncoder encoder,
+            AuthorizationService authorizationService) {
         this.authenticationManager = authenticationManager;
         this.encoder = encoder;
+        this.authorizationService = authorizationService;
     }
 
     /**
@@ -50,10 +66,9 @@ public class AuthenticationController {
      *
      * @param body 認証情報
      * @return JWT
-     * @throws Exception 認証失敗
      */
     @PostMapping("/login")
-    public LoginReponse login(@RequestBody PostLoginBody body) throws Exception {
+    public LoginReponse login(@RequestBody PostLoginBody body) {
         // Spring Securityに認証処理を依頼する
         var authenticationToken = new UsernamePasswordAuthenticationToken(body.account, body.password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
@@ -61,9 +76,22 @@ public class AuthenticationController {
         // レスポンス(JWT)の生成
         String jwt = this.generateJwt(authentication);
 
-        // TODO: リフレッシュトークンの生成
+        // リフレッシュトークンの更新
+        AppUserDetails user = (AppUserDetails) authentication.getPrincipal();
+        String refreshToken = this.authorizationService.updateRefreshToken(user.getId());
 
-        return new LoginReponse(jwt);
+        return new LoginReponse(jwt, refreshToken);
+    }
+
+    /**
+     * ログアウト
+     *
+     * @param authentication 認証情報
+     */
+    @PostMapping("/logout")
+    public void logout(Authentication authentication) {
+        byte[] userId = Hex.decode(authentication.getName());
+        this.authorizationService.logout(userId);
     }
 
     /**
@@ -73,18 +101,16 @@ public class AuthenticationController {
      * @return JWT
      */
     private String generateJwt(Authentication authentication) {
-        // TODO: 設定とか見てない
         AppUserDetails user = (AppUserDetails) authentication.getPrincipal();
         String userId = new String(Hex.encode(user.getId()));
         Instant now = Instant.now();
-        long expiry = 36000L;
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("itfllc.co.jp")
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(expiry))
+                .expiresAt(now.plusSeconds(this.jwtExpirationTime))
                 .subject(userId)
                 .claim("scope", scope)
                 .build();
@@ -96,12 +122,12 @@ public class AuthenticationController {
     /**
      * loginメソッドのリクエストボディー
      */
-    private record PostLoginBody(String account, String password) {
+    public record PostLoginBody(String account, String password) {
     }
 
     /**
      * loginメソッドのレスポンス
      */
-    private record LoginReponse(String jwt) {
+    public record LoginReponse(String jwt, String refreshToken) {
     }
 }

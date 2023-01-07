@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -93,10 +92,7 @@ public class AppSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         Map<String, PasswordEncoder> encoders = new HashMap<>();
-
         encoders.put("argon2@SpringSecurity_v5_8", Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
-        encoders.put("noop", NoOpPasswordEncoder.getInstance());
-
         PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("argon2@SpringSecurity_v5_8", encoders);
 
         return passwordEncoder;

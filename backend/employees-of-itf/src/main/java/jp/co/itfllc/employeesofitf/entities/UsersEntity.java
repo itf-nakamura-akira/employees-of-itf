@@ -24,6 +24,11 @@ public class UsersEntity {
     private String passwordHash;
 
     /**
+     * リフレッシュトークン
+     */
+    private String refreshToken;
+
+    /**
      * 表示名
      */
     private String name;

@@ -1,5 +1,5 @@
 -- Project Name : noname
--- Date/Time    : 2022/12/21 1:04:04
+-- Date/Time    : 2023/01/07 14:23:37
 -- Author       : AKIRA
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
@@ -38,6 +38,7 @@ create table users (
   id binary(16) default CONCAT(UNHEX(CONV(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000), 10, 16)), RANDOM_BYTES(10)) not null comment 'ID'
   , account varchar(100) not null comment 'アカウント'
   , password_hash text not null comment 'ハッシュ化済みパスワード'
+  , refresh_token text comment 'リフレッシュトークン'
   , name varchar(100) not null comment '表示名'
   , employee_no mediumint comment '社員番号'
   , system_authority enum('Administrator','Manager', 'General') default 'General' not null comment 'システム権限:Administrator: 管理者
