@@ -13,7 +13,8 @@
 	"extensions": [
         "Pivotal.vscode-boot-dev-pack",
         "vscjava.vscode-java-pack",
-		"yangbaopan.vscode-java-ibatisx"
+		"yangbaopan.vscode-java-ibatisx",
+		"eamodio.gitlens"
     ]
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
