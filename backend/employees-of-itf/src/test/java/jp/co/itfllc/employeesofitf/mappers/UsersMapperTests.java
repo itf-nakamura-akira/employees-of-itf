@@ -3,7 +3,6 @@ package jp.co.itfllc.employeesofitf.mappers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -29,6 +28,21 @@ import net.bytebuddy.utility.RandomString;
 @DisplayName("UsersMapper のテストコード")
 public class UsersMapperTests {
     /**
+     * DBのテストデータ
+     */
+    private final UsersEntity expectedYamanouchi = new UsersEntity(Hex.decode("0000000000BEC4324C9B9257EE300CFC"),
+            "yamanouchi",
+            "{argon2@SpringSecurity_v5_8}$argon2id$v=19$m=16384,t=2,p=1$lGnuXr7ppRC33DBCL3drOA$/OazSBWZr+7OZ/uOZ0kz9oCo079oJ+fqDkhL3zmwo84",
+            null, "山之内 貴彦", 0, SystemAuthority.Administrator, true);
+
+    /**
+     * DBのテストデータ
+     */
+    private final UsersEntity expectedUser09 = new UsersEntity(Hex.decode("0000000009BEC4324C9B9257EE300CFC"), "user09",
+            "{argon2@SpringSecurity_v5_8}$argon2id$v=19$m=16384,t=2,p=1$lGnuXr7ppRC33DBCL3drOA$/OazSBWZr+7OZ/uOZ0kz9oCo079oJ+fqDkhL3zmwo84",
+            null, "ユーザー 09", 9, SystemAuthority.General, true);
+
+    /**
      * UsersMapper
      */
     @Autowired
@@ -45,18 +59,18 @@ public class UsersMapperTests {
         Optional<UsersEntity> actual;
 
         // データの取得
-        actual = this.usersMapper.selectById(Hex.decode("0000000000BEC4324C9B9257EE300CFC"));
+        actual = this.usersMapper.selectById(this.expectedYamanouchi.getId());
 
         // データの確認
         assertNotNull(actual.get());
-        assertEquals("yamanouchi", actual.get().getAccount());
+        this.assertsUsersEntity(this.expectedYamanouchi, actual.get());
 
         // データの取得
-        actual = this.usersMapper.selectById(Hex.decode("0000000009BEC4324C9B9257EE300CFC"));
+        actual = this.usersMapper.selectById(this.expectedUser09.getId());
 
         // データの確認
         assertNotNull(actual.get());
-        assertEquals("user09", actual.get().getAccount());
+        this.assertsUsersEntity(this.expectedUser09, actual.get());
 
         // データの取得（存在しないID）
         actual = this.usersMapper.selectById(Hex.decode("0000"));
@@ -71,18 +85,18 @@ public class UsersMapperTests {
         Optional<UsersEntity> actual;
 
         // データの取得
-        actual = this.usersMapper.selectByAccount("yamanouchi");
+        actual = this.usersMapper.selectByAccount(this.expectedYamanouchi.getAccount());
 
         // データの確認
         assertNotNull(actual.get());
-        assertEquals("yamanouchi", actual.get().getAccount());
+        this.assertsUsersEntity(this.expectedYamanouchi, actual.get());
 
         // データの取得
-        actual = this.usersMapper.selectByAccount("user05");
+        actual = this.usersMapper.selectByAccount(this.expectedUser09.getAccount());
 
         // データの確認
-        assertNotNull(actual);
-        assertEquals("user05", actual.get().getAccount());
+        assertNotNull(actual.get());
+        this.assertsUsersEntity(this.expectedUser09, actual.get());
 
         // 存在しないデータの取得
         actual = this.usersMapper.selectByAccount("unknow");
@@ -101,85 +115,43 @@ public class UsersMapperTests {
         assertEquals(21, actual.size());
 
         // データの確認
-        assertEquals("yamanouchi", actual.get(0).getAccount());
-        assertEquals("user01", actual.get(1).getAccount());
-        assertEquals("user02", actual.get(2).getAccount());
-        assertEquals("user03", actual.get(3).getAccount());
-        assertEquals("user04", actual.get(4).getAccount());
-        assertEquals("user05", actual.get(5).getAccount());
-        assertEquals("user06", actual.get(6).getAccount());
-        assertEquals("user07", actual.get(7).getAccount());
-        assertEquals("user08", actual.get(8).getAccount());
-        assertEquals("user09", actual.get(9).getAccount());
-        assertEquals("user10", actual.get(10).getAccount());
-        assertEquals("user11", actual.get(11).getAccount());
-        assertEquals("user12", actual.get(12).getAccount());
-        assertEquals("user13", actual.get(13).getAccount());
-        assertEquals("user14", actual.get(14).getAccount());
-        assertEquals("user15", actual.get(15).getAccount());
-        assertEquals("user16", actual.get(16).getAccount());
-        assertEquals("user17", actual.get(17).getAccount());
-        assertEquals("user18", actual.get(18).getAccount());
-        assertEquals("user19", actual.get(19).getAccount());
-        assertEquals("user20", actual.get(20).getAccount());
+        assertsUsersEntity(this.expectedYamanouchi, actual.get(0));
+        assertsUsersEntity(this.expectedUser09, actual.get(9));
     }
 
     @Test
     @DisplayName("insert メソッドのテスト")
     public void testInsert() {
-        String account;
-        String password;
-        String name;
-        Integer employeeNo;
-        SystemAuthority systemAuthority;
-        Boolean isEnabled;
+        UsersEntity insertData;
         UsersEntity actual;
 
         // データの追加
-        account = "new_data1";
-        password = "password";
-        name = "user name1";
-        employeeNo = 1000;
-        systemAuthority = SystemAuthority.Administrator;
-        isEnabled = true;
+        insertData = new UsersEntity(null, "new_data1", this.passwordEncoder.encode("password"), null, "user name1",
+                1000,
+                SystemAuthority.Administrator, true);
 
-        this.usersMapper.insert(account, this.passwordEncoder.encode(password), name, employeeNo, systemAuthority,
-                isEnabled);
+        this.usersMapper.insert(insertData.getAccount(), insertData.getPasswordHash(),
+                insertData.getName(),
+                insertData.getEmployeeNo(), insertData.getSystemAuthority(), insertData.getIsEnabled());
 
         // データの確認
-        actual = this.usersMapper.selectByAccount(account).get();
-
-        assertNotNull(actual.getId());
-        assertTrue(actual.getId().length > 0);
-        assertTrue(this.passwordEncoder.matches(password, actual.getPasswordHash()));
-        assertNull(actual.getRefreshToken());
-        assertEquals(name, actual.getName());
-        assertEquals(employeeNo, actual.getEmployeeNo());
-        assertEquals(systemAuthority, actual.getSystemAuthority());
-        assertEquals(isEnabled, actual.getIsEnabled());
+        actual = this.usersMapper.selectByAccount(insertData.getAccount()).get();
+        insertData.setId(actual.getId()); // IDはINSERT時にDBで発行するので、ここでセットする
+        this.assertsUsersEntity(insertData, actual);
 
         // データの追加
-        account = "new_data2";
-        password = "password";
-        name = "user name2";
-        employeeNo = 1001;
-        systemAuthority = SystemAuthority.General;
-        isEnabled = false;
+        insertData = new UsersEntity(null, "new_data2", this.passwordEncoder.encode("password"), null, "user name2",
+                1001,
+                SystemAuthority.General, false);
 
-        this.usersMapper.insert(account, this.passwordEncoder.encode(password), name, employeeNo, systemAuthority,
-                isEnabled);
+        this.usersMapper.insert(insertData.getAccount(), insertData.getPasswordHash(),
+                insertData.getName(),
+                insertData.getEmployeeNo(), insertData.getSystemAuthority(), insertData.getIsEnabled());
 
         // データの確認
-        actual = this.usersMapper.selectByAccount(account).get();
-
-        assertNotNull(actual.getId());
-        assertTrue(actual.getId().length > 0);
-        assertTrue(this.passwordEncoder.matches(password, actual.getPasswordHash()));
-        assertNull(actual.getRefreshToken());
-        assertEquals(name, actual.getName());
-        assertEquals(employeeNo, actual.getEmployeeNo());
-        assertEquals(systemAuthority, actual.getSystemAuthority());
-        assertEquals(isEnabled, actual.getIsEnabled());
+        actual = this.usersMapper.selectByAccount(insertData.getAccount()).get();
+        insertData.setId(actual.getId()); // IDはINSERT時にDBで発行するので、ここでセットする
+        this.assertsUsersEntity(insertData, actual);
     }
 
     @Test
@@ -193,7 +165,7 @@ public class UsersMapperTests {
 
         // データの更新
         newToken = RandomString.make();
-        targetId = Hex.decode("0000000000BEC4324C9B9257EE300CFC");
+        targetId = this.expectedYamanouchi.getId();
         target = this.usersMapper.selectById(targetId).get();
         result = this.usersMapper.updateRefreshToken(target.getId(), newToken);
         actual = this.usersMapper.selectById(targetId).get();
@@ -205,7 +177,7 @@ public class UsersMapperTests {
 
         // データの更新
         newToken = RandomString.make();
-        targetId = Hex.decode("0000000001BEC4324C9B9257EE300CFC");
+        targetId = this.expectedUser09.getId();
         target = this.usersMapper.selectById(targetId).get();
         result = this.usersMapper.updateRefreshToken(target.getId(), newToken);
         actual = this.usersMapper.selectById(targetId).get();
@@ -214,5 +186,23 @@ public class UsersMapperTests {
         assertNotEquals(newToken, target.getRefreshToken());
         assertEquals(1, result);
         assertEquals(newToken, actual.getRefreshToken());
+    }
+
+    /**
+     * UsersEntityのAssert関数
+     *
+     * @param expected 期待値
+     * @param actual   実際の値
+     */
+    private void assertsUsersEntity(UsersEntity expected, UsersEntity actual) {
+        assertEquals(new String(Hex.encode(expected.getId())).toUpperCase(),
+                new String(Hex.encode(actual.getId())).toUpperCase());
+        assertEquals(expected.getAccount(), actual.getAccount());
+        assertEquals(expected.getPasswordHash(), actual.getPasswordHash());
+        assertEquals(expected.getRefreshToken(), actual.getRefreshToken());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getEmployeeNo(), actual.getEmployeeNo());
+        assertEquals(expected.getSystemAuthority(), actual.getSystemAuthority());
+        assertEquals(expected.getIsEnabled(), actual.getIsEnabled());
     }
 }

@@ -1,12 +1,16 @@
 package jp.co.itfllc.employeesofitf.entities;
 
 import jp.co.itfllc.employeesofitf.enums.SystemAuthority;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * ユーザーテーブル
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UsersEntity {
     /**
      * ID
